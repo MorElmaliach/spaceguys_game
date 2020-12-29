@@ -9,6 +9,8 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Text _roomName;
 
+    [SerializeField] private Text _mainRoomName;
+
     public void OnClick_CreateRoom()
     {
         if (!PhotonNetwork.IsConnected)
@@ -17,6 +19,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         }
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
-        PhotonNetwork.JoinOrCreateRoom(_roomName.text, options, TypedLobby.Default);
+        if (PhotonNetwork.JoinOrCreateRoom(_roomName.text, options, TypedLobby.Default))
+        {
+            _mainRoomName.text = _roomName.text;
+        }
     }
 }

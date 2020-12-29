@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
-public class CandymanMoves : NetworkBehaviour
+public class CandymanMoves : MonoBehaviour
 {
     public float speed = 10f;
     public const float original_speed = 10f;
@@ -37,8 +36,6 @@ public class CandymanMoves : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (this.isLocalPlayer)
-        {
             // Move closer to Destination
             GetComponent<Rigidbody2D>().AddForce(dest * speed);
             if (Input.GetKey(KeyCode.UpArrow) && valid(Vector2.up))
@@ -53,7 +50,6 @@ public class CandymanMoves : NetworkBehaviour
             {
                 GetComponent<Rigidbody2D>().AddForce(Vector2.zero);
             }
-        }
 
         GetComponent<Rigidbody2D>().angularVelocity = 0f;
         GetComponent<Rigidbody2D>().rotation = 0;

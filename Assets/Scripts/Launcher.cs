@@ -1,6 +1,9 @@
+using System;
+using System.Text;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Random = System.Random;
 
 namespace SpaceGuys
 {
@@ -19,8 +22,24 @@ namespace SpaceGuys
         {
             Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
             PhotonNetwork.JoinLobby();
+            PhotonNetwork.NickName = RandomString(5);
         }
 
+        private string RandomString(int Size)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random rand = new Random();
+            char ch;
+            for (int i = 0; i < Size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * rand.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+            return builder.ToString();
+        }
+        /*
+         * Delete when done testing or when discord username don't work
+        */
 
         public override void OnDisconnected(DisconnectCause cause)
         {

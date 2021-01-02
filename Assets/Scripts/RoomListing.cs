@@ -9,8 +9,6 @@ public class RoomListing : MonoBehaviour
 {
     [SerializeField] private Text _text;
 
-    private bool _isSelected;
-
     public RoomInfo RoomInfo;
 
     public void SetRoomInfo(RoomInfo roomInfo)
@@ -21,7 +19,11 @@ public class RoomListing : MonoBehaviour
 
     public void OnClick_Button()
     {
-        PhotonNetwork.JoinRoom(RoomInfo.Name);
+        if (PhotonNetwork.JoinRoom(RoomInfo.Name))
+        {
+            // Display an error for a full room
+        }
+
     }
 
 }

@@ -12,6 +12,12 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
 
     private List<RoomListing> _listings = new List<RoomListing>();
 
+    public override void OnJoinedRoom()
+    {
+        _content.DestoryChildren();
+        _listings.Clear();
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomInfo info in roomList)
@@ -20,7 +26,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             if (info.RemovedFromList)
             {
                 int index = _listings.FindIndex(x => x.RoomInfo.Name == info.Name);
-                if (index != -1)
+                if (index != -1 && _listings[index].gameObject != null)
                 {
                     Destroy(_listings[index].gameObject);
                     _listings.RemoveAt(index); 
@@ -28,11 +34,19 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             }
             else
             {
-                RoomListing listing = Instantiate(_roomListing, _content);
-                if (listing != null)
+                int index = _listings.FindIndex(x => x.RoomInfo.Name == info.Name);
+                if (index == -1)
                 {
-                    listing.SetRoomInfo(info);
-                    _listings.Add(listing);
+                    RoomListing listing = Instantiate(_roomListing, _content);
+                    if (listing != null)
+                    {
+                        listing.SetRoomInfo(info);
+                        _listings.Add(listing);
+                    }
+                }
+                else
+                {
+                    //_listings.in
                 }
             }
         }

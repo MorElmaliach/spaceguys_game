@@ -3,6 +3,7 @@ using System.Text;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 using Random = System.Random;
 
 namespace SpaceGuys
@@ -10,6 +11,14 @@ namespace SpaceGuys
     public class Launcher : MonoBehaviourPunCallbacks
     {
         #region Private Serializable Fields
+
+        [SerializeField] private GameObject _roomListingView;
+
+        [SerializeField] private GameObject _roomsListingView;
+
+        [SerializeField] private GameObject _createListingView;
+
+        [SerializeField] private PlayerListingMenu _playerListingMenu;
 
         /// <summary>
         /// The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.
@@ -21,8 +30,29 @@ namespace SpaceGuys
         public override void OnConnectedToMaster()
         {
             Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
-            PhotonNetwork.JoinLobby();
-            PhotonNetwork.NickName = RandomString(5);
+            if (!PhotonNetwork.InLobby)
+            {
+                PhotonNetwork.JoinLobby();
+            }
+
+        }
+        public override void OnJoinedRoom()
+        {
+            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+            _playerListingMenu.GetCurrentRoomPlayers();
+            _roomListingView.SetActive(true);
+            _roomsListingView.SetActive(false);
+            _createListingView.SetActive(false);
+        }
+
+        public override void OnLeftRoom()
+        {
+            _playerListingMenu.LeaveRoom();
+        }
+
+        public void ChangeNickname(string newNickname)
+        {
+            PhotonNetwork.NickName = newNickname;
         }
 
         private string RandomString(int Size)
@@ -51,10 +81,7 @@ namespace SpaceGuys
             Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
         }
 
-        public override void OnJoinedRoom()
-        {
-            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
-        }
+        
 
         #endregion
 
@@ -82,6 +109,8 @@ namespace SpaceGuys
             // #Critical
             // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.NickName = "Player" + RandomString(5);
+
         }
 
 

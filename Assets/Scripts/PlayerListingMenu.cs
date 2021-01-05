@@ -58,6 +58,8 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public void OnClick_StartGame()
     {
+        if( PhotonNetwork.CurrentRoom.PlayerCount < 2)
+            //Todo: add error msg
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;

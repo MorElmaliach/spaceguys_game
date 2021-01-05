@@ -11,7 +11,7 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     [SerializeField] private PlayerListing _playerListing;
 
     private List<PlayerListing> _listings = new List<PlayerListing>();
-    
+
     public void GetCurrentRoomPlayers()
     {
         if (!PhotonNetwork.IsConnected)
@@ -58,9 +58,9 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public void OnClick_StartGame()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
-            return;
-            //Todo: add error msg
+        //if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        //    return;
+        //    //Todo: add error msg
 
         if (PhotonNetwork.IsMasterClient)
         {

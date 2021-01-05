@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public int p1_score = 0;
     public int p2_score = 0;
@@ -23,12 +24,27 @@ public class GameManager : MonoBehaviour
     public float timeLeft = 12000;
     public GameObject[] Surprises;
 
+    public Vector3 PlayerPositionsVector3;
+
+    [Tooltip("The prefab to use for representing the player")]
+    public GameObject playerPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
         gameOver.SetActive(false);
         p1ScoreText.text = "P1 Score: " + p1_score;
         p2ScoreText.text = "P2 Score: " + p2_score;
+        if (playerPrefab == null)
+        {
+            Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
+        }
+        else
+        {
+            Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
+            // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+            PhotonNetwork.Instantiate(this.playerPrefab.name, PlayerPositionsVector3, Quaternion.identity, 0);
+        }
     }
 
     // Update is called once per frame
@@ -91,6 +107,7 @@ public class GameManager : MonoBehaviour
 
     public void ConsumeSurprise(bool Player)
     {
+        //todo: Fix all RNG related shit
         int score = Random.Range(1, 15);
         int speed = Random.Range(30, 71);
         int time = Random.Range(3, 8);
@@ -188,5 +205,30 @@ public class GameManager : MonoBehaviour
     {
         return gameState;
     }
-}
 
+    #region Photon Callbacks
+
+
+    /// <summary>
+    /// Called when the local player left the room. We need to load the launcher scene.
+    /// </summary>
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+
+    #endregion
+
+
+    #region Public Methods
+
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+
+    #endregion
+}

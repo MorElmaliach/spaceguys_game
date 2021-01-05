@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class CandymanMoves : MonoBehaviour
+public class CandymanMoves : MonoBehaviourPun
 {
     public float speed = 10f;
     public const float original_speed = 10f;
@@ -36,8 +37,12 @@ public class CandymanMoves : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-            // Move closer to Destination
-            GetComponent<Rigidbody2D>().AddForce(dest * speed);
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+        // Move closer to Destination
+        GetComponent<Rigidbody2D>().AddForce(dest * speed);
             if (Input.GetKey(KeyCode.UpArrow) && valid(Vector2.up))
                 dest = Vector2.up;
             else if (Input.GetKey(KeyCode.RightArrow) && valid(Vector2.right))

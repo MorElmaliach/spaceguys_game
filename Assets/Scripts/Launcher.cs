@@ -119,6 +119,7 @@ namespace SpaceGuys
         /// </summary>
         void Start()
         {
+            PhotonNetwork.AutomaticallySyncScene = true;
             Connect();
         }
 

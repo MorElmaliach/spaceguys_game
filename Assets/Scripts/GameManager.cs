@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         } else
         {
             p2_score++;
-            p2ScoreText.text = "P1 Score: " + p2_score;
+            p2ScoreText.text = "P2 Score: " + p2_score;
         }
         
     }

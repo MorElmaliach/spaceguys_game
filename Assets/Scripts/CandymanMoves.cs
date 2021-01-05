@@ -14,6 +14,10 @@ public class CandymanMoves : MonoBehaviourPun
 
     Vector2 startPosition;
 
+    [Tooltip("The Player's UI GameObject Prefab")]
+    [SerializeField]
+    public GameObject PlayerUiPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +34,17 @@ public class CandymanMoves : MonoBehaviourPun
             gameObject.tag = "player_1";
             gameObject.GetComponent<SpriteRenderer>().sprite = greenSprite;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + 4, gameObject.transform.position.y, 0);
+        }
+        
+        if (PlayerUiPrefab != null)
+        {
+            GameObject _uiGo = Instantiate(PlayerUiPrefab);
+            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+            _uiGo.gameObject.transform.position = this.gameObject.transform.position;
+        }
+        else
+        {
+            Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
         }
 
     }
@@ -92,6 +107,17 @@ public class CandymanMoves : MonoBehaviourPun
 
     }
 
+    void CalledOnLevelWasLoaded(int level)
+    {
+        //// check if we are outside the Arena and if it's the case, spawn around the center of the arena in a safe zone
+        //if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
+        //{
+        //    transform.position = new Vector3(0f, 5f, 0f);
+        //}
+        GameObject _uiGo = Instantiate(this.PlayerUiPrefab);
+        _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+
+    }
 
     bool valid(Vector2 dir)
     {

@@ -139,6 +139,8 @@ MonoBehaviour:
   speed: 10
   greenSprite: {fileID: 21300000, guid: 8402fcd573cfa8d4f903f7b830f6a053, type: 3}
   yellowSprite: {fileID: 21300000, guid: 8679fe6e274802742bba2797cc3a65a6, type: 3}
+  PlayerUiPrefab: {fileID: 7111272439183202799, guid: 3f6e3cea32e211749aca8ce0cc644d5e,
+    type: 3}
 --- !u!114 &1489023280301559135
 MonoBehaviour:
   m_ObjectHideFlags: 0

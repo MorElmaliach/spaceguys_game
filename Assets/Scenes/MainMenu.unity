@@ -4497,6 +4497,7 @@ MonoBehaviour:
   _roomListingView: {fileID: 1323099643}
   _roomsListingView: {fileID: 137765434}
   _createListingView: {fileID: 139483816}
+  _startGameButton: {fileID: 129642209}
   _playerListingMenu: {fileID: 512517590}
 --- !u!4 &1728799722
 Transform:

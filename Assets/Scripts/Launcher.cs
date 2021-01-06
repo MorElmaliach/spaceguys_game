@@ -13,10 +13,10 @@ namespace SpaceGuys
         #region Private Serializable Fields
 
         [SerializeField] private GameObject _roomListingView;
-
         [SerializeField] private GameObject _roomsListingView;
-
         [SerializeField] private GameObject _createListingView;
+        [SerializeField] private Button _startGameButton;
+        
 
         [SerializeField] private PlayerListingMenu _playerListingMenu;
 
@@ -38,6 +38,10 @@ namespace SpaceGuys
             _roomListingView.SetActive(true);
             _roomsListingView.SetActive(false);
             _createListingView.SetActive(false);
+            if (PhotonNetwork.IsMasterClient)
+                _startGameButton.interactable=true;
+            else
+                _startGameButton.interactable = false;
         }
 
         public override void OnLeftRoom()

@@ -22,16 +22,13 @@ public class CandymanMoves : MonoBehaviourPun
     void Start()
     {
         startPosition = transform.position;
-        if (GameObject.FindGameObjectWithTag("player_1"))
-        {
-            gameObject.tag = "player_2";
+        if (PhotonNetwork.IsMasterClient)
+        { 
             gameObject.GetComponent<SpriteRenderer>().sprite = yellowSprite;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x - 4, gameObject.transform.position.y,0);
-
         }
         else
         {
-            gameObject.tag = "player_1";
             gameObject.GetComponent<SpriteRenderer>().sprite = greenSprite;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + 4, gameObject.transform.position.y, 0);
         }

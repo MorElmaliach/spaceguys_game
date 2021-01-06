@@ -4,6 +4,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utilities;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -33,8 +34,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         gameOver.SetActive(false);
-        p1ScoreText.text = "P1 Score: " + p1_score;
-        p2ScoreText.text = "P2 Score: " + p2_score;
         if (playerPrefab == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
@@ -70,39 +69,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         
     }
 
-    public void IncrementScore(bool Player)
+    public void IncrementScore()
     {
-        if (Player)
-        {
-            p1_score++;
-            p1ScoreText.text = "P1 Score: " + p1_score;
-        } else
-        {
-            p2_score++;
-            p2ScoreText.text = "P2 Score: " + p2_score;
-        }
-        
+        PhotonNetwork.LocalPlayer.AddScore(1);
     }
-    public void DecreaseScore(bool Player)
+    public void DecreaseScore()
     {
-        if (Player)
-        {
-            if (p1_score > 0)
-            {
-                p1_score--;
-            }
-            p1ScoreText.text = "P1 Score: " + p1_score;
-        }
-        else
-        {
-            if (p2_score > 0)
-            {
-                p2_score--;
-            }
-            p2ScoreText.text = "P2 Score: " + p2_score;
-        }
-        
-
+        PhotonNetwork.LocalPlayer.AddScore(-1);
     }
 
     public void ConsumeSurprise(bool Player)
@@ -117,7 +90,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             case 1:
                 for (int i = 0; i < score; i++) {
-                    IncrementScore(Player);
+                    IncrementScore();
                 }
 
                 latestBuff.text = "Player " + (Player? "1" : "2") + " gained " + score + " points";
@@ -125,7 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             case 2:
                 for (int i = 0; i < score; i++)
                 {
-                    DecreaseScore(Player);
+                    DecreaseScore();
                 }
                 latestBuff.text = "Player " + (Player ? "1" : "2") + " lost " + score + " points";
                 break;

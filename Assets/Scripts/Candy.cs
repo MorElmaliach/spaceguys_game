@@ -18,15 +18,7 @@ public class Candy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D co)
     {
-        if (co.tag.Contains("player_1"))
-        {
-            Destroy(gameObject);
-            GameObject.Find("gamemanager").GetComponent<GameManager>().IncrementScore(true);
-        }
-        if (co.tag.Contains("player_2"))
-        {
-            Destroy(gameObject);
-            GameObject.Find("gamemanager").GetComponent<GameManager>().IncrementScore(false);
-        }
+        Destroy(gameObject);
+        GameObject.Find("gamemanager").GetComponent<GameManager>().IncrementScore();
     }
 }

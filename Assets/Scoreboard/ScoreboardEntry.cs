@@ -24,6 +24,6 @@ public class ScoreboardEntry : MonoBehaviour
 	//update label bases on score and name
 	public void UpdateScore()
 	{
-		m_label.text = $"{m_player.NickName} : Score {m_player.GetScore()}";
+		m_label.text = $"{m_player.NickName}: Score {m_player.GetScore()}";
 	}
 }

@@ -22,6 +22,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         }
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = maxPlayersPerRoom;
+        options.PublishUserId = true;
         PhotonNetwork.JoinOrCreateRoom(_roomName.text, options, TypedLobby.Default);
     }
 }

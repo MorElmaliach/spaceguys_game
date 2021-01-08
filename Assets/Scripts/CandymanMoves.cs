@@ -33,7 +33,7 @@ public class CandymanMoves : MonoBehaviourPun
         {
             Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
         }
-        if (PhotonNetwork.MasterClient.NickName == photonView.Owner.NickName)
+        if (PhotonNetwork.MasterClient.UserId == photonView.Owner.UserId)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = yellowSprite;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x - 4, gameObject.transform.position.y, 0);

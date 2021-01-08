@@ -57,7 +57,7 @@ namespace Utilities
 				{property, defaultValue}
 			};
 			player.SetCustomProperties(scoreProp);
-		}
+    	}
 
 		/// <summary>
 		/// Deletes Property if DeleteNullProperties is set to true in Room Options.

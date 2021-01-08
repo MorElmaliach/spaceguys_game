@@ -8,23 +8,15 @@ using Utilities;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public int p1_score = 0;
-    public int p2_score = 0;
     private bool gameState = true;
-    public Text p1ScoreText;
-    public Text p2ScoreText;
-    public Text latestBuff;
     public GameObject gameOver;
     public Text timerText;
     public Transform[] waypoints;
     public static int lives = 2;
     public GameObject pacman;
     public GameObject kakaman;
-    public GameObject MapItem;
-    public UnityEngine.Object coinPrefab;
     public float timeLeft = 12000;
     public GameObject[] Surprises;
-
     public Vector3 PlayerPositionsVector3;
 
     [Tooltip("The prefab to use for representing the player")]
@@ -42,7 +34,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            PhotonNetwork.Instantiate(this.playerPrefab.name, PlayerPositionsVector3, Quaternion.identity, 0);
+            GameObject obj = PhotonNetwork.Instantiate(this.playerPrefab.name, PlayerPositionsVector3, Quaternion.identity, 0);
+            obj.name = PhotonNetwork.LocalPlayer.UserId;
         }
     }
 
@@ -69,88 +62,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         
     }
 
-    public void IncrementScore()
-    {
-        PhotonNetwork.LocalPlayer.AddScore(1);
-    }
-    public void DecreaseScore()
-    {
-        PhotonNetwork.LocalPlayer.AddScore(-1);
-    }
-
-    public void ConsumeSurprise(bool Player)
-    {
-        //todo: Fix all RNG related shit
-        int score = Random.Range(1, 15);
-        int speed = Random.Range(30, 71);
-        int time = Random.Range(3, 8);
-        GameObject p1GameObject = GameObject.FindGameObjectWithTag("player_1");
-        GameObject p2GameObject = GameObject.FindGameObjectWithTag("player_2");
-        switch (Random.Range(1, 7))
-        {
-            case 1:
-                for (int i = 0; i < score; i++) {
-                    IncrementScore();
-                }
-
-                latestBuff.text = "Player " + (Player? "1" : "2") + " gained " + score + " points";
-                break;
-            case 2:
-                for (int i = 0; i < score; i++)
-                {
-                    DecreaseScore();
-                }
-                latestBuff.text = "Player " + (Player ? "1" : "2") + " lost " + score + " points";
-                break;
-            case 3:
-                if (Player)
-                {
-                    p1GameObject.GetComponent<CandymanMoves>().ChangeSpeed(speed, time, true);
-                } else
-                {
-                    p2GameObject.GetComponent<MovementP2>().ChangeSpeed(speed, time, true);
-                }
-                latestBuff.text = "Player " + (Player ? "1" : "2") + " is now faster for " + time + " seconds!";
-                break;
-            case 4:
-                if (Player)
-                {
-                    p1GameObject.GetComponent<CandymanMoves>().ChangeSpeed(speed, time, false);
-                }
-                else
-                {
-                    p2GameObject.GetComponent<CandymanMoves>().ChangeSpeed(speed, time, false);
-                }
-                latestBuff.text = "Player " + (Player ? "1" : "2") + " is now slower for " + time + " seconds!";
-                break;
-            case 5:
-                if (Player)
-                {
-                    p1GameObject.GetComponent<CandymanMoves>().FreezePlayer(time);
-                }
-                else
-                {
-                    p2GameObject.GetComponent<CandymanMoves>().FreezePlayer(time);
-                }
-                latestBuff.text = "Player " + (Player ? "1" : "2") + " is now frozen for " + time + " seconds!";
-                break;
-            case 6:
-                if (Player)
-                {
-                    p2GameObject.GetComponent<CandymanMoves>().FreezePlayer(time);
-                }
-                else
-                {
-                    p1GameObject.GetComponent<CandymanMoves>().FreezePlayer(time);
-                }
-                latestBuff.text = "Player " + (Player ? "2" : "1") + " is now frozen for " + time + " seconds!";
-                break;
-            default:
-                return;
-        }
-        
-    }
-    
     private void bringBackSurprises()
     {
         foreach(GameObject surprise in Surprises)
@@ -180,6 +91,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     #region Photon Callbacks
+
+    
 
 
     /// <summary>

@@ -21,6 +21,6 @@ public class Candy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D co)
     {
         Destroy(gameObject);
-        PhotonNetwork.PlayerList[co.gameObject.GetPhotonView().Owner.NickName == PhotonNetwork.MasterClient.NickName? 0 : 1].AddScore(1);
+        PhotonNetwork.PlayerList[co.gameObject.GetPhotonView().Owner.UserId == PhotonNetwork.MasterClient.UserId ? 0 : 1].AddScore(1);
     }
 }

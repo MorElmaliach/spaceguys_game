@@ -44,20 +44,20 @@ public class Surprise : MonoBehaviour
                 setBuffsMessage($"{PhotonNetwork.PlayerList[playerIndex].NickName} lost {score} points");
                 break;
             case 3:
-                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<CandymanMoves>().ChangeSpeed(speed, time, true);
+                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<PlayerControls>().ChangeSpeed(speed, time, true);
                 setBuffsMessage($"{PhotonNetwork.PlayerList[playerIndex].NickName} is now faster for {time} seconds!");
                 break;
             case 4:
-                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<CandymanMoves>().ChangeSpeed(speed, time, true);
+                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<PlayerControls>().ChangeSpeed(speed, time, false);
                 setBuffsMessage($"{PhotonNetwork.PlayerList[playerIndex].NickName} is now slower for {time} seconds!");
                 break;
             case 5:
-                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<CandymanMoves>().FreezePlayer(time);
+                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<PlayerControls>().FreezePlayer(time);
                 setBuffsMessage($"{PhotonNetwork.PlayerList[playerIndex].NickName} is now frozen for {time} seconds!");
                 break;
             case 6:
-                if (playerIndex == 0) playerIndex = 1; else playerIndex = 0;
-                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<CandymanMoves>().FreezePlayer(time);
+                if (playerIndex != 0) playerIndex = 1;
+                GameObject.Find(PhotonNetwork.PlayerList[playerIndex].UserId).GetComponent<PlayerControls>().FreezePlayer(time);
                 setBuffsMessage($"{PhotonNetwork.PlayerList[playerIndex].NickName} is now frozen for {time} seconds!");
                 break;
             default:

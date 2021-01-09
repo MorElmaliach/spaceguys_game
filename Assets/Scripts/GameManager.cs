@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            GameObject obj = PhotonNetwork.Instantiate(this.playerPrefab.name, PlayerPositionsVector3, Quaternion.identity, 0);
-            obj.name = PhotonNetwork.LocalPlayer.UserId;
+            PhotonNetwork.Instantiate(this.playerPrefab.name, PlayerPositionsVector3, Quaternion.identity, 0);
         }
+        PhotonNetwork.LocalPlayer.SetScore(0);
     }
 
     // Update is called once per frame
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         waypoints[lives--].GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.black);
         if (lives >= 0)
         {
-            pacman.GetComponent<CandymanMoves>().Restart();
+            pacman.GetComponent<PlayerControls>().Restart();
             kakaman.GetComponent<Movement>().ResetPosition();
         }
         else

@@ -7,7 +7,7 @@ public class PlayerUI : MonoBehaviour
 {
     #region Private Fields
 
-    private CandymanMoves target;
+    private PlayerControls target;
 
     float characterControllerHeight = 4f;
     Transform targetTransform;
@@ -66,7 +66,7 @@ public class PlayerUI : MonoBehaviour
 
     #region Public Methods
 
-    public void SetTarget(CandymanMoves _target)
+    public void SetTarget(PlayerControls _target)
     {
         if (_target == null)
         {

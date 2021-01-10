@@ -70,20 +70,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void Death()
-    {
-        waypoints[lives--].GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.black);
-        if (lives >= 0)
-        {
-            pacman.GetComponent<PlayerControls>().Restart();
-            kakaman.GetComponent<Movement>().ResetPosition();
-        }
-        else
-        {
-            gameState = false;
-            gameOver.SetActive(true);
-        }
-    }
+   
 
     public bool isGameOver()
     {

@@ -59,13 +59,13 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
         }
         // Move closer to Destination
         GetComponent<Rigidbody2D>().AddForce(dest * speed);
-            if (Input.GetKey(KeyCode.UpArrow) && valid(Vector2.up))
+            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && valid(Vector2.up))
                 dest = Vector2.up;
-            else if (Input.GetKey(KeyCode.RightArrow) && valid(Vector2.right))
+            else if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && valid(Vector2.right))
                 dest = Vector2.right;
-            else if (Input.GetKey(KeyCode.DownArrow) && valid(Vector2.down))
+            else if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && valid(Vector2.down))
                 dest = Vector2.down;
-            else if (Input.GetKey(KeyCode.LeftArrow) && valid(Vector2.left))
+            else if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && valid(Vector2.left))
                 dest = Vector2.left;
             else
             {

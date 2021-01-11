@@ -20,10 +20,11 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+      
         foreach (RoomInfo info in roomList)
         {
 
-            if (info.RemovedFromList)
+            if (info.RemovedFromList || info.PlayerCount  == 2)
             {
                 int index = _listings.FindIndex(x => x.RoomInfo.Name == info.Name);
                 if (index != -1 && _listings[index].gameObject != null)

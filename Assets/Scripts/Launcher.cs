@@ -67,7 +67,7 @@ namespace SpaceGuys
             return builder.ToString();
         }
         /*
-         * Delete when done testing or when discord username don't work
+         * TODO: Delete when done testing or when discord username don't work
         */
 
         public override void OnDisconnected(DisconnectCause cause)
@@ -131,26 +131,16 @@ namespace SpaceGuys
 
         /// <summary>
         /// Start the connection process.
-        /// - If already connected, we attempt joining a random room
         /// - if not yet connected, Connect this application instance to Photon Cloud Network
         /// </summary>
         public void Connect()
         {
-            // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
-            if (PhotonNetwork.IsConnected)
+            if (!PhotonNetwork.IsConnected)
             {
-                // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
-                //PhotonNetwork.JoinRandomRoom();
-            }
-            else
-            {
-                // #Critical, we must first and foremost connect to Photon Online Server.
                 PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.GameVersion = gameVersion;
             }
         }
-
-
         #endregion
 
 

@@ -10306,13 +10306,14 @@ GameObject:
   - component: {fileID: 640550111}
   - component: {fileID: 640550113}
   - component: {fileID: 640550112}
+  - component: {fileID: 640550114}
   m_Layer: 5
   m_Name: gameoverText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &640550111
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10354,7 +10355,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 120
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -10365,7 +10366,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Over!
+  m_Text: 
 --- !u!222 &640550113
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10374,6 +10375,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640550110}
   m_CullTransparentMesh: 0
+--- !u!114 &640550114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640550110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b907a536c5a8f6a439bd29a8926a5e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverMessage: {fileID: 640550112}
 --- !u!1001 &644048645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39607,7 +39621,12 @@ PrefabInstance:
     - target: {fileID: 8013942434437145927, guid: 7ca2ec1801407d6478d2e225b4c2b5b9,
         type: 3}
       propertyPath: timeLeft
-      value: 12000
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013942434437145927, guid: 7ca2ec1801407d6478d2e225b4c2b5b9,
+        type: 3}
+      propertyPath: _timeLeft
+      value: 1100
       objectReference: {fileID: 0}
     - target: {fileID: 8013942434437145927, guid: 7ca2ec1801407d6478d2e225b4c2b5b9,
         type: 3}

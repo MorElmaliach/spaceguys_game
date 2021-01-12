@@ -4,6 +4,7 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class PlayerControls : MonoBehaviourPun, IOnEventCallback
 {
@@ -20,11 +21,13 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
     [SerializeField]
     public GameObject PlayerUiPrefab;
 
+    private bool gameRunning;
+
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position;
-        
+        gameRunning = true;
         if (PlayerUiPrefab != null)
         {
             GameObject _uiGo = Instantiate(PlayerUiPrefab);
@@ -57,8 +60,11 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
         {
             return;
         }
-        // Move closer to Destination
-        GetComponent<Rigidbody2D>().AddForce(dest * speed);
+
+        if (gameRunning)
+        {
+            // Move closer to Destination
+            GetComponent<Rigidbody2D>().AddForce(dest * speed);
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && valid(Vector2.up))
                 dest = Vector2.up;
             else if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && valid(Vector2.right))
@@ -72,25 +78,27 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
                 GetComponent<Rigidbody2D>().AddForce(Vector2.zero);
             }
 
-        GetComponent<Rigidbody2D>().angularVelocity = 0f;
-        GetComponent<Rigidbody2D>().rotation = 0;
-        if (notSpeedBuff)
-        {
-            if (GetComponent<Rigidbody2D>().velocity.x > 10)
+            GetComponent<Rigidbody2D>().angularVelocity = 0f;
+            GetComponent<Rigidbody2D>().rotation = 0;
+            if (notSpeedBuff)
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(10, 0);
-            }
-            else if (GetComponent<Rigidbody2D>().velocity.x < -10)
-            {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(-10, 0);
-            }
-            if (GetComponent<Rigidbody2D>().velocity.y > 10)
-            {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, 10);
-            }
-            else if (GetComponent<Rigidbody2D>().velocity.y < -10)
-            {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, -10);
+                if (GetComponent<Rigidbody2D>().velocity.x > 10)
+                {
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(10, 0);
+                }
+                else if (GetComponent<Rigidbody2D>().velocity.x < -10)
+                {
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(-10, 0);
+                }
+
+                if (GetComponent<Rigidbody2D>().velocity.y > 10)
+                {
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(0, 10);
+                }
+                else if (GetComponent<Rigidbody2D>().velocity.y < -10)
+                {
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(0, -10);
+                }
             }
         }
     }
@@ -147,7 +155,6 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
     IEnumerator TimedEffect(int Time)
     {
         yield return new WaitForSeconds(Time);
-
         speed = original_speed;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
         notSpeedBuff = true;
@@ -156,7 +163,6 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
     public void OnEvent(EventData photonEvent)
     {
         byte eventCode = photonEvent.Code;
-
         if (eventCode == 2)
         {
             object[] data = (object[])photonEvent.CustomData;
@@ -164,6 +170,14 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
             speed = 0;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             StartCoroutine(TimedEffect((int) data[1]));
+        }
+
+        if (eventCode == 3)
+        {
+            gameRunning = false;
+            GetComponent<Rigidbody2D>().angularVelocity = 0f;
+            GetComponent<Rigidbody2D>().rotation = 0;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         }
     }
     private void OnEnable()

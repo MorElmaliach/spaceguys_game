@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,13 +13,8 @@ using Utilities;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     private bool gameState = true;
-    public GameObject gameOver;
     public Text timerText;
-    public Transform[] waypoints;
-    public static int lives = 2;
-    public GameObject pacman;
-    public GameObject kakaman;
-    public float timeLeft = 12000;
+    [SerializeField] private float _timeLeft = 110;
     public GameObject[] Surprises;
     public Vector3 PlayerPositionsVector3;
 
@@ -25,42 +24,44 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        gameOver.SetActive(false);
         if (playerPrefab == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
         }
         else
         {
-            Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
             PhotonNetwork.Instantiate(this.playerPrefab.name, PlayerPositionsVector3, Quaternion.identity, 0);
         }
-        PhotonNetwork.LocalPlayer.SetScore(0);
+        PlayerExt.SetScore(PhotonNetwork.LocalPlayer, 0);
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(4, "", raiseEventOptions, SendOptions.SendReliable);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float minutes = timeLeft < 0 ? 0 : Mathf.FloorToInt(timeLeft / 60);
-        float seconds = timeLeft < 0 ? 0 : Mathf.FloorToInt(timeLeft % 60);
+        float minutes = _timeLeft < 0 ? 0 : Mathf.FloorToInt(_timeLeft / 60);
+        float seconds = _timeLeft < 0 ? 0 : Mathf.FloorToInt(_timeLeft % 60);
 
         timerText.text = "Time: " + minutes.ToString().PadLeft(2, '0') + ":" + seconds.ToString().PadLeft(2, '0');
-        if (timeLeft > 0)
+        if (_timeLeft > 0)
         {
-            timeLeft -= Time.deltaTime;
-            if ((int)timeLeft % 15 == 0)
+            _timeLeft -= Time.deltaTime;
+            if ((int)_timeLeft % 15 == 0)
             {
                 bringBackSurprises();
             }
 
-        } /*else
-        /*{
+        } 
+
+        else if (gameState)
+        {
+            StartCoroutine(TimedEffect(1));
             gameState = false;
-            gameOver.SetActive(true);
-        }*/
-        
+        }
     }
+
 
     private void bringBackSurprises()
     {
@@ -70,16 +71,32 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-   
-
-    public bool isGameOver()
+    IEnumerator TimedEffect(int time)
     {
-        return gameState;
+        yield return new WaitForSeconds(time);
+        string winner = "";
+        var score = 0;
+        if (PhotonNetwork.PlayerList[0].GetScore() ==
+            PhotonNetwork.PlayerList[0].GetScore())
+        {
+            winner = PhotonNetwork.PlayerList[0].NickName;
+            score = PhotonNetwork.PlayerList[0].GetScore();
+        }
+        else
+        {
+            winner = PhotonNetwork.PlayerList[1].NickName;
+            score = PhotonNetwork.PlayerList[1].GetScore();
+        }
+
+        object[] content = new object[] { winner, score };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(3, content, raiseEventOptions, SendOptions.SendReliable);
     }
+
 
     #region Photon Callbacks
 
-    
+
 
 
     /// <summary>

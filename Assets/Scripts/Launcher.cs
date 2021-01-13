@@ -15,7 +15,6 @@ namespace SpaceGuys
         [SerializeField] private GameObject _roomListingView;
         [SerializeField] private GameObject _roomsListingView;
         [SerializeField] private GameObject _createListingView;
-        [SerializeField] private Button _startGameButton;
         
 
         [SerializeField] private PlayerListingMenu _playerListingMenu;
@@ -33,15 +32,10 @@ namespace SpaceGuys
         }
         public override void OnJoinedRoom()
         {
-            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
             _playerListingMenu.GetCurrentRoomPlayers();
             _roomListingView.SetActive(true);
             _roomsListingView.SetActive(false);
             _createListingView.SetActive(false);
-            if (PhotonNetwork.IsMasterClient)
-                _startGameButton.interactable=true;
-            else
-                _startGameButton.interactable = false;
         }
 
         public override void OnLeftRoom()

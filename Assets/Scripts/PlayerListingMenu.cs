@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
+using Photon.Pun.Simple.Internal;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerListingMenu : MonoBehaviourPunCallbacks
 {
@@ -10,7 +13,11 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
 
     [SerializeField] private PlayerListing _playerListing;
 
+    [SerializeField] private Button _startGameButton;
+
     private List<PlayerListing> _listings = new List<PlayerListing>();
+
+    
 
     public void GetCurrentRoomPlayers()
     {
@@ -23,6 +30,16 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
         {
             AddPlayerListing(playerInfo.Value);
         }
+        ResetStartButtonStatus();
+    }
+
+    private void ResetStartButtonStatus()
+    {
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.PlayerList.Length >= 2)
+            _startGameButton.interactable = true;
+        else
+            _startGameButton.interactable = false;
+        _listings.Find(x => x.Player.IsMasterClient).SetMasterPlayer();
     }
 
     public void LeaveRoom()
@@ -36,6 +53,10 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
         if (listing != null)
         {
             listing.SetPlayerInfo(player);
+            if (player.IsMasterClient)
+            {
+                listing.SetMasterPlayer();
+            }
             _listings.Add(listing);
         }
     }
@@ -43,23 +64,30 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         AddPlayerListing(newPlayer);
+        ResetStartButtonStatus();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        int index = _listings.FindIndex(x => Equals(x.Player, otherPlayer));
-
-        if (index != -1)
+        List<PlayerListing> list = _listings.FindAll(x => (x.Player.NickName == otherPlayer.NickName));
+        foreach (PlayerListing playerListing in list)
         {
-            Destroy(_listings[index].gameObject);
-            _listings.RemoveAt(index);
+            Debug.Log($"Testing which object is destroyed: {playerListing}, {playerListing.Player.NickName}");
+            if (playerListing == null) continue;
+            Destroy(playerListing.gameObject);
         }
+
+        _listings = _listings.Except(list).ToList();
+        
+
+        ResetStartButtonStatus();
+
     }
 
     public void OnClick_StartGame()
     {
         //if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
-        //    return;
+        //    ;
         //    //Todo: add error msg
 
         if (PhotonNetwork.IsMasterClient)

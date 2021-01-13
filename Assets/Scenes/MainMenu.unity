@@ -1724,6 +1724,7 @@ MonoBehaviour:
   _content: {fileID: 889493236}
   _playerListing: {fileID: 9221712269538190979, guid: 2e7a15defb230f84ab8dbeb658cd7595,
     type: 3}
+  _startGameButton: {fileID: 129642209}
 --- !u!1 &551370618
 GameObject:
   m_ObjectHideFlags: 0
@@ -4497,7 +4498,6 @@ MonoBehaviour:
   _roomListingView: {fileID: 1323099643}
   _roomsListingView: {fileID: 137765434}
   _createListingView: {fileID: 139483816}
-  _startGameButton: {fileID: 129642209}
   _playerListingMenu: {fileID: 512517590}
 --- !u!4 &1728799722
 Transform:

@@ -19,4 +19,9 @@ public class PlayerListing : MonoBehaviour
 
     }
 
+    public void SetMasterPlayer()
+    {
+        _text.color = Color.red;
+    }
+
 }

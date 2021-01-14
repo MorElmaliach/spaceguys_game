@@ -78,8 +78,6 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
         }
 
         _listings = _listings.Except(list).ToList();
-        
-
         ResetStartButtonStatus();
 
     }

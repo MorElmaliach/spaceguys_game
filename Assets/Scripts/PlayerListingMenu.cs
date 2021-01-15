@@ -13,11 +13,17 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
 
     [SerializeField] private PlayerListing _playerListing;
 
+    [SerializeField] private Text _roomName;
+
     [SerializeField] private Button _startGameButton;
 
     private List<PlayerListing> _listings = new List<PlayerListing>();
 
-    
+
+    public void Awake()
+    {
+        _roomName.text = PhotonNetwork.CurrentRoom.Name;
+    }
 
     public void GetCurrentRoomPlayers()
     {

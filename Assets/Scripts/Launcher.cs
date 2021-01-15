@@ -15,18 +15,20 @@ namespace SpaceGuys
         [SerializeField] private GameObject _roomListingView;
         [SerializeField] private GameObject _roomsListingView;
         [SerializeField] private GameObject _createListingView;
-        
-
         [SerializeField] private PlayerListingMenu _playerListingMenu;
+        [SerializeField] private InputField _nicknameText;
+        [SerializeField] private Button _createRoomButton;
+        [SerializeField] private GameObject _console;
 
-        
 
         public override void OnConnectedToMaster()
         {
             Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
+            _console.GetComponent<Console>().ShowWindow();
             if (!PhotonNetwork.InLobby)
             {
                 PhotonNetwork.JoinLobby();
+                _createRoomButton.interactable = true;
             }
 
         }
@@ -67,6 +69,7 @@ namespace SpaceGuys
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
+            
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
@@ -103,7 +106,7 @@ namespace SpaceGuys
             // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.NickName = "Player" + RandomString(5);
-
+            _nicknameText.text = PhotonNetwork.NickName;
         }
 
 

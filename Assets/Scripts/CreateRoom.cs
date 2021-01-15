@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -21,6 +22,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         Random rand = new Random();
         if (!PhotonNetwork.IsConnected || _roomName.text.Length == 0)
         {
+            DateTime dateTime = DateTime.Now;
+            Debug.LogError($"{dateTime}: Room name must be filled.");
+            Console.getCurrentConsole().ShowWindow();
             return;
         }
         RoomOptions options = new RoomOptions();

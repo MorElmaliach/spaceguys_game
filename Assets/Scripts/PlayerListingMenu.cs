@@ -78,7 +78,6 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
         List<PlayerListing> list = _listings.FindAll(x => (x.Player.NickName == otherPlayer.NickName));
         foreach (PlayerListing playerListing in list)
         {
-            Debug.Log($"Testing which object is destroyed: {playerListing}, {playerListing.Player.NickName}");
             if (playerListing == null) continue;
             Destroy(playerListing.gameObject);
         }
@@ -90,16 +89,9 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
 
     public void OnClick_StartGame()
     {
-        //if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
-        //    ;
-        //    //Todo: add error msg
-
-        if (PhotonNetwork.IsMasterClient)
-        {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
             PhotonNetwork.LoadLevel(1);
-        }
     }
 
 

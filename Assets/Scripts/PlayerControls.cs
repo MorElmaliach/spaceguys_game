@@ -36,7 +36,7 @@ public class PlayerControls : MonoBehaviourPun, IOnEventCallback
         }
         else
         {
-            Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
+            Debug.LogWarning("Missing PlayerUiPrefab reference on player Prefab.", this);
         }
         if (PhotonNetwork.MasterClient.UserId == photonView.Owner.UserId)
         {

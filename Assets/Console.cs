@@ -38,6 +38,18 @@ public class Console : MonoBehaviour
 
 	// Visual elements:
 
+    private static Console myRef;
+
+    public static Console getCurrentConsole()
+    {
+        return myRef;
+    }
+
+    public void Awake()
+    {
+        myRef = this;
+    }
+
 	static readonly Dictionary<LogType, Color> logTypeColors = new Dictionary<LogType, Color>()
 	{
 		{ LogType.Assert, Color.white },

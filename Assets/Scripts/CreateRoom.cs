@@ -23,7 +23,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected || _roomName.text.Length == 0)
         {
             DateTime dateTime = DateTime.Now;
-            Debug.LogError($"{dateTime}: Room name must be filled.");
+            Debug.LogWarning($"{dateTime}: Room name must be filled.");
             Console.getCurrentConsole().ShowWindow();
             return;
         }

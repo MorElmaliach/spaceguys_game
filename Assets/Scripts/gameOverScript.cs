@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class gameOverScript : MonoBehaviour, IOnEventCallback
 {
     [SerializeField] private Text gameOverMessage;
+    [SerializeField] private Button _leaveRoomButton;
 
 
     public void OnEvent(EventData photonEvent)
@@ -16,6 +17,7 @@ public class gameOverScript : MonoBehaviour, IOnEventCallback
         byte eventCode = photonEvent.Code;
         if (eventCode == 3)
         {
+            _leaveRoomButton.interactable = true;
             object[] data = (object[])photonEvent.CustomData;
             gameOverMessage.text = $"Game over! The winner is {data[0]} with {data[1]} points!";
         }

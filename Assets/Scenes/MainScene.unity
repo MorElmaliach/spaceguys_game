@@ -10388,6 +10388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverMessage: {fileID: 640550112}
+  _leaveRoomButton: {fileID: 1566970827}
 --- !u!1001 &644048645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29068,7 +29069,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1566970828}
   m_OnClick:
     m_PersistentCalls:
@@ -39626,7 +39627,7 @@ PrefabInstance:
     - target: {fileID: 8013942434437145927, guid: 7ca2ec1801407d6478d2e225b4c2b5b9,
         type: 3}
       propertyPath: _timeLeft
-      value: 1100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8013942434437145927, guid: 7ca2ec1801407d6478d2e225b4c2b5b9,
         type: 3}

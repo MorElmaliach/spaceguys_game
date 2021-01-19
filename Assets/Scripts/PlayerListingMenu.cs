@@ -41,7 +41,8 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
 
     private void ResetStartButtonStatus()
     {
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.PlayerList.Length >= 2)
+        // TODO: add && && PhotonNetwork.PlayerList.Length == 2  to the if
+        if (PhotonNetwork.IsMasterClient )
             _startGameButton.interactable = true;
         else
             _startGameButton.interactable = false;

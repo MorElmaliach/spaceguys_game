@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     private bool gameState = true;
     public Text timerText;
-    [SerializeField] private float _timeLeft = 110;
+    [SerializeField] private float _timeLeft = 120;
     public GameObject[] Surprises;
     public Vector3 PlayerPositionsVector3;
 

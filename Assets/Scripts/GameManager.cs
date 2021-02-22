@@ -76,8 +76,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(time);
         string winner = "";
         var score = 0;
-        if (PhotonNetwork.PlayerList[0].GetScore() ==
-            PhotonNetwork.PlayerList[0].GetScore())
+        if (PhotonNetwork.PlayerList[0].GetScore() >
+            PhotonNetwork.PlayerList[1].GetScore())
         {
             winner = PhotonNetwork.PlayerList[0].NickName;
             score = PhotonNetwork.PlayerList[0].GetScore();
